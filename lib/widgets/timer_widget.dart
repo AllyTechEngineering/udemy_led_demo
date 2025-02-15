@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udemy_led_demo/bloc/cubits/timer_cubit/timer_cubit.dart';
-// import 'package:udemy_led_demo/utilities/constants.dart';
 
 class TimerWidget extends StatelessWidget {
   const TimerWidget({super.key});
@@ -17,14 +16,14 @@ class TimerWidget extends StatelessWidget {
       lastDate: DateTime(2100),
     );
 
-    if (pickedDate == null) return;
+    if (pickedDate == null || !context.mounted) return; // ✅ Ensure context is still valid
 
     TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(current),
     );
 
-    if (pickedTime == null) return;
+    if (pickedTime == null || !context.mounted) return; // ✅ Ensure context is still valid
 
     DateTime newDateTime = DateTime(
       pickedDate.year,

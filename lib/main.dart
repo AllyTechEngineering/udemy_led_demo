@@ -8,11 +8,12 @@ import 'package:udemy_led_demo/bloc/cubits/pwm_on_off_cubit/pwm_on_off_cubit.dar
 import 'package:udemy_led_demo/bloc/cubits/sensor_cubit/sensor_cubit.dart';
 import 'package:udemy_led_demo/bloc/cubits/timer_cubit/timer_cubit.dart';
 import 'package:udemy_led_demo/bloc/data_repository/data_repository.dart';
+import 'package:udemy_led_demo/screens/home_screen.dart';
 import 'package:udemy_led_demo/services/gpio_services.dart';
 import 'package:udemy_led_demo/services/pwm_services.dart';
 import 'package:udemy_led_demo/services/timer_services.dart';
-import 'package:udemy_led_demo/screens/home_screen.dart';
 import 'package:udemy_led_demo/utilities/custom_app_theme.dart';
+
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
@@ -23,12 +24,8 @@ void main() async {
   final gpioService = GpioService();
   final timerService = TimerService();
 
-  // Initialize repository with a default state
-  final dataRepository = DataRepository(
-    gpioService: gpioService,
-    pwmService: pwmService,
-    timerService: timerService,
-  );
+  // Initialize DataRepository (No longer needs services)
+  final dataRepository = DataRepository();
 
   gpioService.initializeGpioService();
 
@@ -37,7 +34,12 @@ void main() async {
   final windowListener = MyWindowListener(pwmService, gpioService);
   windowManager.addListener(windowListener);
 
-  runApp(MyApp(dataRepository: dataRepository, pwmService: pwmService, gpioService: gpioService, timerService: timerService));
+  runApp(MyApp(
+    dataRepository: dataRepository,
+    pwmService: pwmService,
+    gpioService: gpioService,
+    timerService: timerService,
+  ));
 }
 
 class MyWindowListener extends WindowListener {
@@ -62,7 +64,13 @@ class MyApp extends StatelessWidget {
   final GpioService gpioService;
   final TimerService timerService;
 
-  const MyApp({super.key, required this.dataRepository, required this.pwmService, required this.gpioService, required this.timerService});
+  const MyApp({
+    super.key,
+    required this.dataRepository,
+    required this.pwmService,
+    required this.gpioService,
+    required this.timerService,
+  });
 
   @override
   Widget build(BuildContext context) {
