@@ -1,0 +1,21 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:udemy_led_demo/bloc/data_repository/data_repository.dart';
+import 'package:udemy_led_demo/services/gpio_services.dart';
+
+part 'sensor_state.dart';
+
+class SensorCubit extends Cubit<SensorState> {
+  final GpioService _gpioService;
+  final DataRepository _dataRepository;
+
+  SensorCubit(this._gpioService, this._dataRepository)
+      : super(SensorState(_gpioService.isInputDetected)) {
+    _gpioService.startInputPolling((newState) {
+      final updatedState =
+          _dataRepository.deviceState.copyWith(gpioSensorState: newState);
+      _dataRepository.updateDeviceState(updatedState);
+      emit(SensorState(newState));
+    });
+  }
+}
