@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udemy_led_demo/bloc/cubits/flash_cubit/flash_cubit.dart';
-
+import 'package:udemy_led_demo/utilities/constants.dart';
 
 class FlashSlider extends StatelessWidget {
   const FlashSlider({super.key});
@@ -10,37 +10,74 @@ class FlashSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FlashCubit, FlashState>(
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Flash Rate: ${state.flashRate} ms",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  activeTrackColor: Colors.blueAccent,
-                  inactiveTrackColor: Colors.grey,
-                  thumbColor: Colors.blue,
-                  overlayColor: Colors.blue.withAlpha(32),
-                  valueIndicatorColor: Colors.blueAccent,
-                  showValueIndicator: ShowValueIndicator.always,
+        return SizedBox(
+          height: Constants.kSizedBoxHeight,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 50,
+                width: double.infinity,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Constants.kColorDarkest, Constants.kColorMedium],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(90), // Replaces withOpacity
+                      offset: const Offset(4, 4),
+                      blurRadius: 3,
+                    ),
+                  ],
                 ),
-                child: Slider(
-                  value: state.flashRate.toDouble(),
-                  min: 0,
-                  max: 1000,
-                  divisions: 20,
-                  label: "${state.flashRate} ms",
-                  onChanged: (value) {
-                    context.read<FlashCubit>().updateFlashRate(value.toInt());
-                  },
+                child: Text(
+                  "Flash Rate: ${state.flashRate} ms",
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 10,
+                    // thumbShape: const RectangularSliderThumbShape(),
+                    thumbShape:
+                        const RoundSliderThumbShape(enabledThumbRadius: 20),
+                    overlayShape:
+                        const RoundSliderOverlayShape(overlayRadius: 16),
+                    tickMarkShape: const RoundSliderTickMarkShape(),
+                    activeTickMarkColor: Colors.white,
+                    inactiveTickMarkColor: Colors.black,
+                    inactiveTrackColor: Colors.grey,
+                    activeTrackColor: Colors.blueGrey,
+                    thumbColor: Constants.kColorDarkest,
+                    valueIndicatorColor: Colors.blueGrey,
+                    valueIndicatorTextStyle:
+                        const TextStyle(color: Colors.white),
+                  ),
+                  child: RotatedBox(
+                    quarterTurns: 3,
+                    child: Slider(
+                      value: state.flashRate.toDouble(),
+                      min: 0,
+                      max: 1000,
+                      divisions: 20,
+                      label: "${state.flashRate} ms",
+                      onChanged: (value) {
+                        context
+                            .read<FlashCubit>()
+                            .updateFlashRate(value.toInt());
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

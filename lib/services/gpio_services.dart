@@ -3,18 +3,17 @@ import 'package:dart_periphery/dart_periphery.dart';
 import 'package:flutter/foundation.dart';
 import 'package:udemy_led_demo/utilities/constants.dart';
 
-
 class GpioService {
   static final GpioService _instance = GpioService._internal();
   static Duration pollingDuration =
       const Duration(milliseconds: Constants.kPollingDuration);
   Timer? _pollingTimer;
   Timer? _flashTimer;
-  late GPIO gpio5; // Output GPIO
-  late GPIO gpio6; // Output GPIO
-  late GPIO gpio22;
-  late GPIO gpio26; // Input GPIO
-  late GPIO gpio27; // Relay GPIO
+  static GPIO gpio5 = GPIO(5, GPIOdirection.gpioDirOut, 0); // Output GPIO
+  static GPIO gpio6 = GPIO(6, GPIOdirection.gpioDirOut, 0); // Output GPIO
+  static GPIO gpio22 = GPIO(22, GPIOdirection.gpioDirOut, 0);
+  static GPIO gpio16 = GPIO(16, GPIOdirection.gpioDirIn, 0); //Sensor input
+  static GPIO gpio27 = GPIO(27, GPIOdirection.gpioDirOut, 0); //Sensor state LED
 
   // Use a map for managing boolean states
   final Map<String, bool> _gpioStates = {
@@ -30,14 +29,39 @@ class GpioService {
 
   GpioService._internal() {
     try {
-      gpio5 = GPIO(5, GPIOdirection.gpioDirOut, 0);
-      gpio6 = GPIO(6, GPIOdirection.gpioDirOut, 0);
-      gpio22 = GPIO(22, GPIOdirection.gpioDirOut, 0); // UI state LED
-      gpio26 = GPIO(26, GPIOdirection.gpioDirIn, 0); // Binary sensor input
-      gpio27 = GPIO(27, GPIOdirection.gpioDirOut, 0); // Sensor state LED
-      debugPrint('GPIO Service Initialized');
+      gpio5.write(false);
+      gpio5.getGPIOinfo();
+      debugPrint('gpio5 Initialized');
     } on Exception catch (e) {
-      debugPrint('Error initializing GpioService: $e');
+      debugPrint('Error initializing gpio5: $e');
+    }
+    try {
+      gpio6.write(false);
+      gpio6.getGPIOinfo();
+      debugPrint('gpio6 Initialized');
+    } on Exception catch (e) {
+      debugPrint('Error initializing gpio6: $e');
+    }
+    try {
+      gpio22.write(false);
+      gpio22.getGPIOinfo();
+      debugPrint('gpio22 Initialized');
+    } on Exception catch (e) {
+      debugPrint('Error initializing gpio22: $e');
+    }
+    try {
+      gpio16.read();
+      gpio16.getGPIOinfo();
+      debugPrint('gpio16 Initialized');
+    } on Exception catch (e) {
+      debugPrint('Error initializing gpio16: $e');
+    }
+    try {
+      gpio27.write(false);
+      gpio27.getGPIOinfo();
+      debugPrint('gpio27 Initialized');
+    } on Exception catch (e) {
+      debugPrint('Error initializing gpio27: $e');
     }
   }
 
@@ -49,6 +73,7 @@ class GpioService {
   bool get currentInputState => _gpioStates["currentInputState"]!;
   bool get isFlashing => _gpioStates["isFlashing"]!;
 
+  
   // Methods to modify state values
   void setState(String key, bool value) {
     _gpioStates[key] = value;
@@ -56,12 +81,18 @@ class GpioService {
 
   void initializeGpioService() {
     try {
-      checkBuildMode();
-      gpio5.write(false);
-      gpio6.write(false);
-      gpio22.write(false);
-      gpio26.read();
-      gpio27.write(false);
+      debugPrint('Dummy Code');
+      // checkBuildMode();
+      // gpio5.write(false);
+      // gpio5.getGPIOinfo();
+      // gpio6.write(false);
+      // gpio6.getGPIOinfo();
+      // gpio22.write(false);
+      // gpio22.getGPIOinfo();
+      // gpio16.read();
+      // gpio16.getGPIOinfo();
+      // gpio27.write(false);
+      // gpio27.getGPIOinfo();
     } on Exception catch (e) {
       debugPrint('gpip initialization failed: $e');
     }
@@ -79,17 +110,23 @@ class GpioService {
 
   // GPIO Input Polling
   void startInputPolling(Function(bool) onData) {
+    debugPrint('Starting GPIO input polling onDate: $onData, isPolling: $isPolling');
     if (isPolling) return;
     setState("isPolling", true);
 
     _pollingTimer = Timer.periodic(pollingDuration, (_) {
-      bool newState = gpio26.read();
+      bool newState = gpio16.read();
       if (newState != isInputDetected) {
         setState("isInputDetected", newState);
         onData(newState);
       }
     });
   }
+
+bool getFlashState() {
+    return gpio22.read();
+  }
+  
 
   void stopInputPolling() {
     _pollingTimer?.cancel();
@@ -132,7 +169,7 @@ class GpioService {
       stopFlashingDevice();
     } else {
       setState("isFlashing", true);
-      int flashRate = (newFlashRate * 10).toInt();
+      int flashRate = (newFlashRate).toInt();
       debugPrint('Device flash rate: $flashRate');
       _flashTimer?.cancel();
       _flashTimer = Timer.periodic(Duration(milliseconds: flashRate), (_) {
@@ -166,7 +203,7 @@ class GpioService {
     gpio5.dispose();
     gpio6.dispose();
     gpio22.dispose();
-    gpio26.dispose();
+    gpio16.dispose();
     gpio27.dispose();
 
     debugPrint('GPIO resources released');

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udemy_led_demo/bloc/cubits/pwm_cubit/pwm_cubit.dart';
+import 'package:udemy_led_demo/utilities/constants.dart';
 
 class PwmSlider extends StatelessWidget {
   const PwmSlider({super.key});
@@ -9,37 +10,73 @@ class PwmSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PwmCubit, PwmState>(
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "PWM Duty Cycle: ${state.dutyCycle}%",
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  activeTrackColor: Colors.greenAccent,
-                  inactiveTrackColor: Colors.grey,
-                  thumbColor: Colors.green,
-                  overlayColor: Colors.green.withAlpha(32),
-                  valueIndicatorColor: Colors.greenAccent,
-                  showValueIndicator: ShowValueIndicator.always,
+        return SizedBox(
+          height: Constants.kSizedBoxHeight,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: Constants.kSmallBoxHeight,
+                width: Constants.kSmallBoxWidth,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Constants.kColorDarkest, Constants.kColorMedium],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Colors.black.withAlpha(90), // Replaces withOpacity
+                      offset: const Offset(4, 4),
+                      blurRadius: 3,
+                    ),
+                  ],
                 ),
-                child: Slider(
-                  value: state.dutyCycle.toDouble(),
-                  min: 0,
-                  max: 100,
-                  divisions: 10,
-                  label: "${state.dutyCycle}%",
-                  onChanged: (value) {
-                    context.read<PwmCubit>().updatePwm(value.toInt());
-                  },
+                child: Text(
+                  "PWM Duty Cycle: ${state.dutyCycle}%",
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 10,
+                    // thumbShape: const RectangularSliderThumbShape(),
+                    thumbShape:
+                        const RoundSliderThumbShape(enabledThumbRadius: 20),
+                    overlayShape:
+                        const RoundSliderOverlayShape(overlayRadius: 16),
+                    tickMarkShape: const RoundSliderTickMarkShape(),
+                    activeTickMarkColor: Colors.white,
+                    inactiveTickMarkColor: Colors.black,
+                    inactiveTrackColor: Colors.grey,
+                    activeTrackColor: Colors.blueGrey,
+                    thumbColor: Constants.kColorDarkest,
+                    valueIndicatorColor: Colors.blueGrey,
+                    valueIndicatorTextStyle:
+                        const TextStyle(color: Colors.white),
+                  ),
+                  child: RotatedBox(
+                    quarterTurns: 3,
+                    child: Slider(
+                      value: state.dutyCycle.toDouble(),
+                      min: 0,
+                      max: 100,
+                      divisions: 10,
+                      label: "${state.dutyCycle}%",
+                      onChanged: (value) {
+                        context.read<PwmCubit>().updatePwm(value.toInt());
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
