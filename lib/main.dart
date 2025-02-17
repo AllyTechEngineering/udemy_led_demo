@@ -5,7 +5,7 @@ import 'package:udemy_led_demo/bloc/cubits/flash_cubit/flash_cubit.dart';
 import 'package:udemy_led_demo/bloc/cubits/pwm_cubit/pwm_cubit.dart';
 import 'package:udemy_led_demo/bloc/cubits/sensor_cubit/sensor_cubit.dart';
 import 'package:udemy_led_demo/bloc/cubits/timer_cubit/timer_cubit.dart';
-import 'package:udemy_led_demo/bloc/cubits/toggle_cubit/cubit/toggle_cubit.dart';
+import 'package:udemy_led_demo/bloc/cubits/toggle_cubit/toggle_cubit.dart';
 import 'package:udemy_led_demo/bloc/data_repository/data_repository.dart';
 import 'package:udemy_led_demo/screens/home_screen.dart';
 import 'package:udemy_led_demo/services/gpio_services.dart';

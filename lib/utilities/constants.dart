@@ -16,6 +16,8 @@ class Constants {
   static const String kPwmLabel = 'PWM:';
   static const String kStatusFalse = 'Sensor: Low';
   static const String kStatusTrue = 'Sensor: High';
+  static const String kToggleTrue = 'Device On';
+  static const String kToggleFalse = 'Device Off:';
   static const int kFlashRate = 500; // Flash rate in milliseconds
   static const int kPollingDuration = 1000; // Polling duration in milliseconds
   static const double kWidth = 100.0; // Width of container

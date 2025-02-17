@@ -5,6 +5,7 @@ import 'package:udemy_led_demo/widgets/pwm_slider.dart';
 import 'package:udemy_led_demo/widgets/pwm_toggle_switch.dart';
 import 'package:udemy_led_demo/widgets/sensor_state_widget.dart';
 import 'package:udemy_led_demo/widgets/timer_widget.dart';
+import 'package:udemy_led_demo/widgets/toggle_switch.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                // PwmToggleSwitch(),
+                ToggleSwitch(),
                 // SizedBox(height: 20),
                 SensorStateWidget(),
               ],
