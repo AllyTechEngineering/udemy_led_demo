@@ -9,12 +9,23 @@ class PwmCubit extends Cubit<PwmState> {
   final PwmService _pwmService;
 
   PwmCubit(this._dataRepository, this._pwmService)
-      : super(PwmState(_dataRepository.deviceState.pwmDutyCycle));
+      : super(PwmState(
+          dutyCycle: _dataRepository.deviceState.pwmDutyCycle,
+          isPwmOn: _dataRepository.deviceState.pwmOn,
+        ));
 
   void updatePwm(int value) {
-    final updatedState = _dataRepository.deviceState.copyWith(pwmDutyCycle: value);
+    final updatedState =
+        _dataRepository.deviceState.copyWith(pwmDutyCycle: value);
     _dataRepository.updateDeviceState(updatedState);
     _pwmService.updatePwmDutyCycle(value);
-    emit(PwmState(value));
+    emit(state.copyWith(dutyCycle: value));
+  }
+  void togglePwm() {
+    final newState = !_dataRepository.deviceState.pwmOn;
+    final updatedState = _dataRepository.deviceState.copyWith(pwmOn: newState);
+    _dataRepository.updateDeviceState(updatedState);
+    _pwmService.pwmSystemOnOff();
+    emit(state.copyWith(isPwmOn: newState));
   }
 }

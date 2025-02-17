@@ -18,8 +18,8 @@ class Constants {
   static const String kStatusTrue = 'Sensor: High';
   static const int kFlashRate = 500; // Flash rate in milliseconds
   static const int kPollingDuration = 1000; // Polling duration in milliseconds
-  static const double kWidth = 180.0; // Width of container
-  static const double kHeight = 150.0; // Height of container
+  static const double kWidth = 100.0; // Width of container
+  static const double kHeight = 100.0; // Height of container
   static const double kSizedBoxHeight = 300.0;
   static const double kSizedBoxWidth = 800.0;
   static const double kSmallBoxHeight = 50.0;

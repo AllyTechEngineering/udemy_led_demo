@@ -29,8 +29,6 @@ class PwmService {
       pwm1.enable();
       pwm0.setPolarity(Polarity.pwmPolarityNormal);
       pwm1.setPolarity(Polarity.pwmPolarityNormal);
-      debugPrint('PwmService Initialized: ${pwm0.getPWMinfo()}');
-      // debugPrint('PwmService Initialized: ${pwm1.getPWMinfo()}');
     } catch (e) {
       debugPrint('Error initializing PwmService: $e');
     }
@@ -54,52 +52,20 @@ class PwmService {
   }
 
   void updatePwmDutyCycle(int updateDutyCycle) {
-    debugPrint(
-        'In PwmService updatePwmDutyCycle systemOnOffSate: $systemOnOffState');
     if (systemOnOffState) {
       pwm0.setDutyCycleNs(updateDutyCycle * 100000);
       pwm1.setDutyCycleNs(updateDutyCycle * 100000);
-      // pwm2.setDutyCycleNs(updateDutyCycle * 100000);
-      // pwm3.setDutyCycleNs(updateDutyCycle * 100000);
-      debugPrint(
-        'In PwmService updatePwmDutyCycle DutyCycleNs= ${pwm0.getDutyCycleNs()}',
-      );
-      debugPrint(
-        'In PwmService updatePwmDutyCycle PWM Info: ${pwm0.getPWMinfo()}',
-      );
     }
-  }
-
-  void stopPwm() {
-    pwm0.disable();
-    pwm1.disable();
-  }
-
-  void startPwm() {
-    pwm0.enable();
-    pwm1.enable();
   }
 
   void pwmSystemOnOff() {
     systemOnOffState = !systemOnOffState;
-    debugPrint('In PwmService systemOnOffState: $systemOnOffState');
     if (!systemOnOffState) {
       pwm0.disable();
       pwm1.disable();
-      // pwm2.disable();
-      // pwm3.disable();
-      // GpioService().setLedState(false);
-      // GpioService().setState("isPolling", false);
-      debugPrint('In pwmSystemOnOff disable: ${pwm0.getEnabled()}');
-    }
-    if (systemOnOffState) {
+    } else {
       pwm0.enable();
       pwm1.enable();
-      // pwm2.enable();
-      // pwm3.enable();
-      // GpioService().setLedState(true);
-      // GpioService().setState("isPolling", true);
-      debugPrint('In pwmSystemOnOff enable: ${pwm0.getEnabled()}');
     }
   }
 

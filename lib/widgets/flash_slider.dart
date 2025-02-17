@@ -37,7 +37,7 @@ class FlashSlider extends StatelessWidget {
                 ),
                 child: Text(
                   "Flash Rate: ${state.flashRate} ms",
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodySmall,textAlign: TextAlign.center,
                 ),
               ),
               Expanded(

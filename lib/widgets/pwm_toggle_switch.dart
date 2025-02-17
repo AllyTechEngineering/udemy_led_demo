@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:udemy_led_demo/bloc/cubits/pwm_on_off_cubit/pwm_on_off_cubit.dart';
+import 'package:udemy_led_demo/bloc/cubits/pwm_cubit/pwm_cubit.dart';
 import 'package:udemy_led_demo/utilities/constants.dart';
 import 'package:udemy_led_demo/utilities/custom_button_decorations.dart';
 
@@ -10,7 +10,7 @@ class PwmToggleSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PwmOnOffCubit, PwmOnOffState>(
+    return BlocBuilder<PwmCubit, PwmState>(
       builder: (context, state) {
         return Container(
           width: Constants.kWidth,
@@ -26,7 +26,7 @@ class PwmToggleSwitch extends StatelessWidget {
               ),
               Switch(
                 value: state.isPwmOn,
-                onChanged: (_) => context.read<PwmOnOffCubit>().togglePwm(),
+                onChanged: (_) => context.read<PwmCubit>().togglePwm(),
               ),
             ],
           ),

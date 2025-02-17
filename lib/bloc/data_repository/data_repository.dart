@@ -1,16 +1,17 @@
-
-
+import 'package:flutter/foundation.dart';
+// import 'package:udemy_led_demo/bloc/cubits/flash_cubit/flash_cubit.dart';
 import 'package:udemy_led_demo/models/device_state_model.dart';
 
 class DataRepository {
   DeviceStateModel _deviceState = DeviceStateModel(
     pwmDutyCycle: 0,
-    pwmOn: false,
+    pwmOn: true,
     flashRate: 0,
-    flashOn: false,
+    flashOn: true,
     timerStart: DateTime.now(),
     timerEnd: DateTime.now().add(const Duration(minutes: 1)),
     gpioSensorState: false,
+    toggleDeviceState: false,
   );
 
   DataRepository();
@@ -21,5 +22,19 @@ class DataRepository {
   // Update state with a new model (used by Cubits)
   void updateDeviceState(DeviceStateModel newState) {
     _deviceState = newState;
+    debugPrint('Updated DeviceStateModel: ${_deviceState.toJson()}');
   }
+
+  // Testing how to programatically update the UI Slider
+//   void updateDeviceState(DeviceStateModel newState, {FlashCubit? flashCubit}) {
+//   bool flashRateChanged = newState.flashRate != _deviceState.flashRate;
+
+//   _deviceState = newState;
+//   debugPrint('Updated DeviceStateModel: ${_deviceState.toJson()}');
+
+//   // ✅ If flashRate changed, notify FlashCubit
+//   if (flashRateChanged && flashCubit != null) {
+//     flashCubit.updateFlashRate(newState.flashRate);
+//   }
+// }
 }

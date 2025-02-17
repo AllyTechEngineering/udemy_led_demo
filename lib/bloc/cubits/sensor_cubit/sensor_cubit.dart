@@ -10,9 +10,10 @@ class SensorCubit extends Cubit<SensorState> {
   final GpioService _gpioService;
   final DataRepository _dataRepository;
 
-  SensorCubit(this._gpioService, this._dataRepository)
+  SensorCubit(this._dataRepository, this._gpioService)
       : super(SensorState(_gpioService.isInputDetected)) {
-        debugPrint("SensorCubit initialized with state: ${_gpioService.isInputDetected}");
+    debugPrint(
+        "SensorCubit initialized with state: ${_gpioService.isInputDetected}");
     _gpioService.startInputPolling((newState) {
       final updatedState =
           _dataRepository.deviceState.copyWith(gpioSensorState: newState);

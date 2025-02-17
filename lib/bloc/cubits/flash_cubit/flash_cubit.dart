@@ -11,25 +11,27 @@ class FlashCubit extends Cubit<FlashState> {
 
   FlashCubit(this._dataRepository, this._gpioService)
       : super(FlashState(
-          _dataRepository.deviceState.flashOn,
-          _dataRepository.deviceState.flashRate,
+          isFlashing: _dataRepository.deviceState.flashOn,
+          flashRate: _dataRepository.deviceState.flashRate,
         ));
 
-  void toggleFlashing() {
+  // ✅ Only updates flashRate
+  void updateFlashRate(int value) {
+    final updatedState = _dataRepository.deviceState.copyWith(flashRate: value);
+    _dataRepository.updateDeviceState(updatedState);
+    _gpioService.updateDeviceFlashRate(value);
+
+    // ✅ Only emit the updated flashRate (Keep isFlashing unchanged)
+    emit(state.copyWith(flashRate: value));
+  }
+
+  // ✅ Only updates isFlashing
+  void toggleFlash() {
     final newState = !_dataRepository.deviceState.flashOn;
     final updatedState =
         _dataRepository.deviceState.copyWith(flashOn: newState);
     _dataRepository.updateDeviceState(updatedState);
-    newState
-        ? _gpioService.startFlashingDevice()
-        : _gpioService.stopFlashingDevice();
-    emit(FlashState(newState, _dataRepository.deviceState.flashRate));
-  }
-
-  void updateFlashRate(int value) {
-    final updatedState = _dataRepository.deviceState.copyWith(flashRate: value);
-    _dataRepository.updateDeviceState(updatedState);
-    _gpioService.updateDeviceFlashRate(value.toDouble());
-    emit(FlashState(_dataRepository.deviceState.flashOn, value));
+    _gpioService.toggleFlashState();
+    emit(state.copyWith(isFlashing: newState));
   }
 }

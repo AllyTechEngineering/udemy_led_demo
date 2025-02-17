@@ -38,7 +38,7 @@ class PwmSlider extends StatelessWidget {
                 ),
                 child: Text(
                   "PWM Duty Cycle: ${state.dutyCycle}%",
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodySmall,textAlign: TextAlign.center,
                 ),
               ),
               Expanded(

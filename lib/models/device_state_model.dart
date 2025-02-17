@@ -8,6 +8,7 @@ class DeviceStateModel extends Equatable {
   final DateTime timerStart;
   final DateTime timerEnd;
   final bool gpioSensorState;
+  final bool toggleDeviceState;
 
   const DeviceStateModel({
     required this.pwmDutyCycle,
@@ -17,6 +18,7 @@ class DeviceStateModel extends Equatable {
     required this.timerStart,
     required this.timerEnd,
     required this.gpioSensorState,
+    required this.toggleDeviceState,
   });
 
   // Create a copy of the model with optional changes
@@ -28,6 +30,7 @@ class DeviceStateModel extends Equatable {
     DateTime? timerStart,
     DateTime? timerEnd,
     bool? gpioSensorState,
+    bool? toggleDeviceState,
   }) {
     return DeviceStateModel(
       pwmDutyCycle: pwmDutyCycle ?? this.pwmDutyCycle,
@@ -37,6 +40,7 @@ class DeviceStateModel extends Equatable {
       timerStart: timerStart ?? this.timerStart,
       timerEnd: timerEnd ?? this.timerEnd,
       gpioSensorState: gpioSensorState ?? this.gpioSensorState,
+      toggleDeviceState: toggleDeviceState ?? this.toggleDeviceState,
     );
   }
 
@@ -50,6 +54,7 @@ class DeviceStateModel extends Equatable {
       "timerStart": timerStart.toIso8601String(),
       "timerEnd": timerEnd.toIso8601String(),
       "gpioSensorState": gpioSensorState,
+      "toggleDeviceState": toggleDeviceState,
     };
   }
 
@@ -63,6 +68,7 @@ class DeviceStateModel extends Equatable {
       timerStart: DateTime.parse(json["timerStart"]),
       timerEnd: DateTime.parse(json["timerEnd"]),
       gpioSensorState: json["gpioSensorState"],
+      toggleDeviceState: json["toggleDeviceState"],
     );
   }
 
@@ -75,5 +81,6 @@ class DeviceStateModel extends Equatable {
         timerStart,
         timerEnd,
         gpioSensorState,
+        toggleDeviceState,
       ];
 }
