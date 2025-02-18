@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udemy_led_demo/bloc/cubits/flash_cubit/flash_cubit.dart';
 
 import 'package:udemy_led_demo/utilities/constants.dart';
-import 'package:udemy_led_demo/utilities/custom_button_decorations.dart';
+import 'package:udemy_led_demo/utilities/custom_decorations.dart';
 
 class FlashToggleSwitch extends StatelessWidget {
   const FlashToggleSwitch({super.key});

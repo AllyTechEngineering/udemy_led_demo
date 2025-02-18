@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udemy_led_demo/bloc/cubits/pwm_cubit/pwm_cubit.dart';
 import 'package:udemy_led_demo/utilities/constants.dart';
-import 'package:udemy_led_demo/utilities/custom_button_decorations.dart';
+import 'package:udemy_led_demo/utilities/custom_decorations.dart';
 
 
 class PwmToggleSwitch extends StatelessWidget {

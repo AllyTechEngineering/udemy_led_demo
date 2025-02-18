@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:udemy_led_demo/utilities/constants.dart';
 
-class CustomButtonDecorations {
-  static BoxDecoration gradientContainer() {
+
+class CustomDecorations {
+  static BoxDecoration gradientContainer({required bool isActive}) {
     return BoxDecoration(
       gradient: LinearGradient(
-        colors: [Constants.kColorDarkest, Constants.kColorMedium],
+        colors: isActive
+            ? [Constants.kColorDarkest, Constants.kColorMedium]
+            : [Constants.kColorDarkRed, Constants.kColorDarkestRed],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
