@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 ToggleSwitch(),
-                // SizedBox(height: 20),
+                SizedBox(height: 20),
                 SensorStateWidget(),
               ],
             ),

@@ -91,8 +91,6 @@ class GpioService {
 
   // GPIO Input Polling
   void startInputPolling(Function(bool) onData) {
-    // debugPrint(
-    //     'Starting GPIO input polling onDate: $onData, isPolling: $isPolling');
     if (isPolling) return;
     setState("isPolling", true);
 
@@ -101,10 +99,15 @@ class GpioService {
       if (newState != isInputDetected) {
         setState("isInputDetected", newState);
         onData(newState);
+        setLedState(newState);
       }
     });
   }
 
+  // Sensor input LED control
+  void setLedState(bool state) {
+    gpio27.write(state);
+  }
 
   void stopInputPolling() {
     _pollingTimer?.cancel();
@@ -113,15 +116,16 @@ class GpioService {
 
   // GPIO Output Control
   void newToggleDeviceState() {
-    final bool newState = !toggleDeviceState;
+    debugPrint('First state ${_gpioStates["toggleDeviceState"]}');
+    final bool newState = toggleDeviceState;
     setState("toggleDeviceState", newState);
+       debugPrint('First state $newState');
     gpio5.write(newState);
-    gpio6.write(newState);
+    setState("toggleDeviceState", !toggleDeviceState);
   }
 
   void setRelayState(bool state) {
-    gpio5.write(state);
-    debugPrint('Relay GPIO 5 set to: $state');
+    gpio6.write(state);
   }
 
   void pwmMotorServiceDirection() {
@@ -132,12 +136,6 @@ class GpioService {
       gpio5.write(!directionState);
       gpio6.write(directionState);
     });
-  }
-
-  // Sensor input LED control
-  void setLedState(bool state) {
-    gpio27.write(state);
-    // debugPrint('Relay GPIO 27 set to: $state');
   }
 
   void toggleFlashState() {

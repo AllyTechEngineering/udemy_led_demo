@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:udemy_led_demo/bloc/data_repository/data_repository.dart';
 import 'package:udemy_led_demo/services/gpio_services.dart';
 
@@ -12,8 +12,8 @@ class SensorCubit extends Cubit<SensorState> {
 
   SensorCubit(this._dataRepository, this._gpioService)
       : super(SensorState(_gpioService.isInputDetected)) {
-    debugPrint(
-        "SensorCubit initialized with state: ${_gpioService.isInputDetected}");
+    // debugPrint(
+    //     "SensorCubit initialized with state: ${_gpioService.isInputDetected}");
     _gpioService.startInputPolling((newState) {
       final updatedState =
           _dataRepository.deviceState.copyWith(gpioSensorState: newState);

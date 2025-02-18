@@ -17,8 +17,8 @@ class FlashSlider extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 50,
-                width: double.infinity,
+                height: Constants.kSmallBoxHeight,
+                width: Constants.kSmallBoxWidth,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -36,8 +36,9 @@ class FlashSlider extends StatelessWidget {
                   ],
                 ),
                 child: Text(
-                  "Flash Rate: ${state.flashRate} ms",
-                  style: Theme.of(context).textTheme.bodySmall,textAlign: TextAlign.center,
+                  "Flash Rate:\n${state.flashRate} ms",
+                  style: Theme.of(context).textTheme.bodySmall,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Expanded(
@@ -65,7 +66,7 @@ class FlashSlider extends StatelessWidget {
                       value: state.flashRate.toDouble(),
                       min: 0,
                       max: 1000,
-                      divisions: 20,
+                      divisions: 10,
                       label: "${state.flashRate} ms",
                       onChanged: (value) {
                         context

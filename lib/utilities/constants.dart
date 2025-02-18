@@ -24,8 +24,8 @@ class Constants {
   static const double kHeight = 100.0; // Height of container
   static const double kSizedBoxHeight = 300.0;
   static const double kSizedBoxWidth = 800.0;
-  static const double kSmallBoxHeight = 50.0;
-  static const double kSmallBoxWidth = 100.0;
+  static const double kSmallBoxHeight = 60.0;
+  static const double kSmallBoxWidth = 130.0;
   static const double kLargeBoxHeight = 60.0;
   static const double kLargeBoxWidth = 150.0;
   static const Color kColorTrue = Colors.green;
